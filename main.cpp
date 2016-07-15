@@ -1,16 +1,12 @@
 #include <memory>
 #include <iostream>
 
-#include "vm.h"
-#include "instr.h"
-
-using namespace std;
-using namespace fern;
+#include "fern.hpp"
 
 int main() {
-    cout << "Fern VM" << endl;
+    std::cout << "Fern VM" << "\n";
 
-    u_int64_t program[] = {
+    uint64_t program[] = {
         0x0100000000000048, // load utf8 'H' into r0
         0x0101000000000065, // load utf8 'e' into r1
         0x010200000000006C, // load utf8 'l' into r2
@@ -40,26 +36,24 @@ int main() {
         0x06010C00FFFFFFFF, // print 13 '\n'
         0x00000000FFFFFFFF, // exit
     };
+    const uint32_t num_commands = sizeof (program) / sizeof (program[0]);
 
-    auto machine = std::unique_ptr <vm> (new vm ());
-
-    int program_counter = 0;
-    instr z;
-    constexpr int numCommands = sizeof (program) / sizeof (program[0]);
+    auto machine = std::unique_ptr <fern::vm> (new fern::vm ());
+    uint32_t program_counter = 0;
     bool run = true;
     while (run) {
-        run = program_counter < numCommands;
-        u_int64_t i = program[program_counter++];
-        z = instr::decode (i);
+        run = program_counter < num_commands;
+        uint64_t i = program[program_counter++];
+        auto z = fern::instr::decode (i);
         auto res = machine->execute (&z);
         switch (res) {
-            case vm::er::CONTINUE: break;
-            case vm::er::EXIT:
-                cout << "EXIT" << endl;
+            case fern::vm::er::CONTINUE: break;
+            case fern::vm::er::EXIT:
+                std::cout << "EXIT" << "\n";
                 run = false;
                 break;
-            case vm::er::FATAL:
-                cout << "FATAL" << endl;
+            case fern::vm::er::FATAL:
+                std::cout << "FATAL" << "\n";
                 run = false;
                 break;
         }

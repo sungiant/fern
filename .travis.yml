@@ -1,0 +1,8 @@
+language: cpp
+compiler:
+  - gcc
+script:
+  - echo "compiling fern and associated demo"
+  - g++ -std=c++11 main.cpp -o demo
+  - echo "running demo"
+  - ./demo
