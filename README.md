@@ -1,6 +1,6 @@
 # fern
 
-[![Build Status](https://travis-ci.org/sungiant/fern.png?branch=master)](https://travis-ci.org/sungiant/fern)
+[![Build Status](https://img.shields.io/travis/sungiant/fern)](https://travis-ci.org/sungiant/fern)
 ![License](https://img.shields.io/github/license/sungiant/fern)
 
 A really simple toy register based virtual machine.
